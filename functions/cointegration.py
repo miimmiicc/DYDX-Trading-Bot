@@ -69,10 +69,10 @@ def store_cointegration_result(df_market_prices):
             #LOG PAIR
             if coint_flag == 1 and half_life <= MAX_HALF_LIFE and half_life > 0:
                 criteria_met_pairs.append({
-                    "Base Market: ": base_market, 
-                    "Quote Market: ": quote_market,
-                    "Hedge Ratio: ": hedge_ratio,
-                    "Half Life: ": half_life,
+                    "base_market": base_market, 
+                    "quote_market": quote_market,
+                    "hedge_ratio": hedge_ratio,
+                    "half_life": half_life,
                 })
     #CREATE AND SAVE DATAFRAME
     df_criteria_met = pd.DataFrame(criteria_met_pairs)

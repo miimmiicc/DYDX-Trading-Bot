@@ -1,8 +1,13 @@
-from constants import ABORT_ALL_POSITIONS, FIND_COINTEGRATED 
+from constants import ABORT_ALL_POSITIONS, FIND_COINTEGRATED, PLACE_TRADES, MANAGE_EXITS 
 from connection import connect_dydx
 from private import abort_all_positions
 from public import construct_market_prices, get_candles_historical
 from cointegration import store_cointegration_result
+from entry_pairs import open_positions
+from exit_pairs import manage_trade_exits
+
+
+
 if __name__ == "__main__":
     #Connecting to client
     try:
@@ -39,4 +44,21 @@ if __name__ == "__main__":
                 exit(1)
         except Exception as e:
             print("ERROR SAVING COINTEGRATED PRICES: ", e)
+            exit(1)
+
+    if MANAGE_EXITS:
+        try:
+            print("MANAGING EXITS!")
+            manage_trade_exits(client)
+        except Exception as e:
+            print("ERROR MANAGING EXITING PAIRS: ", e)
+            exit(1)
+
+    #PLACE TRADES FOR OPENING POSITIONS
+    if PLACE_TRADES:
+        try:
+            print("FINDING TRADING OPPORTUNITIES!")
+            open_positions(client)
+        except Exception as e:
+            print("ERROR TRADING PAIRS: ", e)
             exit(1)
