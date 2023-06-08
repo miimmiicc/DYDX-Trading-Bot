@@ -45,17 +45,17 @@ def place_market_order(client, market, side, size, price, reduce_only):
 
     #Place an order
     placed_order = client.private.create_order(
-    position_id = position_id, # required for creating the order signature
-    market=market,
-    side=side,
-    order_type="MARKET",
-    post_only=False,
-    size=size,
-    price=price,
-    limit_fee='0.015',
-    expiration_epoch_seconds=expiration.timestamp(),
-    time_in_force="FOK",
-    reduce_only=reduce_only
+        position_id = position_id, # required for creating the order signature
+        market=market,
+        side=side,
+        order_type="MARKET",
+        post_only=False,
+        size=size,
+        price=price,
+        limit_fee='0.015',
+        expiration_epoch_seconds=expiration.timestamp(),
+        time_in_force="FOK",
+        reduce_only=reduce_only
     )
     return placed_order.data
 

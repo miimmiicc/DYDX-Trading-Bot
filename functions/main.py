@@ -46,19 +46,23 @@ if __name__ == "__main__":
             print("ERROR SAVING COINTEGRATED PRICES: ", e)
             exit(1)
 
-    if MANAGE_EXITS:
-        try:
-            print("MANAGING EXITS!")
-            manage_trade_exits(client)
-        except Exception as e:
-            print("ERROR MANAGING EXITING PAIRS: ", e)
-            exit(1)
+    #RUN AS ALWAYS ON
+    while True:
 
-    #PLACE TRADES FOR OPENING POSITIONS
-    if PLACE_TRADES:
-        try:
-            print("FINDING TRADING OPPORTUNITIES!")
-            open_positions(client)
-        except Exception as e:
-            print("ERROR TRADING PAIRS: ", e)
-            exit(1)
+        #MANAGING EXITS FOR OPEN POSITIONS
+        if MANAGE_EXITS:
+            try:
+                print("MANAGING EXITS!")
+                manage_trade_exits(client)
+            except Exception as e:
+                print("ERROR MANAGING EXITING PAIRS: ", e)
+                exit(1)
+
+        #PLACE TRADES FOR OPENING POSITIONS
+        if PLACE_TRADES:
+            try:
+                print("FINDING TRADING OPPORTUNITIES!")
+                open_positions(client)
+            except Exception as e:
+                print("ERROR TRADING PAIRS: ", e)
+                exit(1)

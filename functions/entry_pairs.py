@@ -1,4 +1,4 @@
-from constants import ZSCORE_THRESH, USD_PER_TRADE, USD_MIN_COLLATERAL
+from constants import ZSCORE_THRESH, USD_PER_TRADE, USD_MIN_COLLATERAL, TOKEN_FACTOR_10
 from utils import format_number
 from public import get_candles_recent
 from cointegration import calculate_zscore
@@ -20,6 +20,15 @@ def open_positions(client):
 
     #INITIALIZE CONTAINER FOR BotAgent RESULTS 
     bot_agents = []
+    #OPEN JSON FILE 
+    try: 
+        open_positions_file = open("bot_agents.json")
+        open_positions_dict = json.load(open_positions_file)
+
+        for p in open_positions_dict:
+            bot_agents.append(p)
+    except:
+        bot_agents = []
 
     #FIND ZScore TRIGGERS
     for index, row in df.iterrows():
@@ -74,7 +83,12 @@ def open_positions(client):
                     quote_quantity = 1 / quote_price * USD_PER_TRADE
                     base_step_size = markets["markets"][base_market]["stepSize"]
                     quote_step_size = markets["markets"][quote_market]["stepSize"]
-
+                    for specific in TOKEN_FACTOR_10 :
+                        if base_market== specific :
+                            base_quantity= float(int(base_quantity/10)*10) 
+                        if quote_market== specific :
+                            quote_quantity= float(int(quote_quantity/10)*10) 
+                            
                     #FORMAT SIZES
                     base_size = format_number(base_quantity, base_step_size)
                     quote_size = format_number(quote_quantity, quote_step_size)
@@ -130,7 +144,7 @@ def open_positions(client):
                             print("---")
 
     #SAVE AGENTS
-    print(f"SUCCESS: {len(bot_agents)} NEW PAIRS LIVE!!!")
+    print(f"SUCCESS: MANAGING OPEN TRADES CHECKED!!!")
     if len(bot_agents) > 0: 
         with open("bot_agents.json", "w") as f:
             json.dump(bot_agents, f)

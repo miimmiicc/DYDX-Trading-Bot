@@ -101,7 +101,7 @@ def manage_trade_exits(client):
         if CLOSE_AT_ZSCORE_CROSS:
             #INITIALIZE Z-SCORE
             hedge_ratio = position["hedge_ratio"]
-            z_score_traded = position["z-score"]
+            z_score_traded = position["z_score"]
             if len(series_1) > 0 and len(series_1) == len(series_2):
                 spread = series_1 - (hedge_ratio * series_2)
                 z_score_current = calculate_zscore(spread).values.tolist()[-1]
@@ -156,7 +156,7 @@ def manage_trade_exits(client):
 
                 print(close_order_m1["order"]["id"])
                 print("!!! CLOSING !!!")
-
+                print(" ")
                 #PROTECT API 
                 time.sleep(1)
 
@@ -174,7 +174,18 @@ def manage_trade_exits(client):
 
                 print(close_order_m2["order"]["id"])
                 print("!!! CLOSING !!!")
-            except:
-                pass
+                print(" ")
+            except Exception as e:
+                print(f"Exit failed for {position_market_m1} with {position_market_m2}")
+                save_output.append(position)
+
+        #KEEP RECORD OF ITEMS AND SAVE 
+        else: 
+            save_output.append(position)
+
+    #SAVE REMAINING ITEMS
+    print(f"{len(save_output)} Items remaining. Saving file...")
+    with open("bot_agents.json", "w") as f:
+        json.dump(save_output, f)
 
         
