@@ -5,11 +5,14 @@ from public import construct_market_prices, get_candles_historical
 from cointegration import store_cointegration_result
 from entry_pairs import open_positions
 from exit_pairs import manage_trade_exits
-
+from messaging import send_message
 
 
 if __name__ == "__main__":
     #Connecting to client
+    success = send_message("WOW BRO YOU REALLY ARE SMART")
+    print(success)
+    exit(1)
     try:
         print("CONNECTING TO CLIENT")
         client = connect_dydx()
