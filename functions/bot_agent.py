@@ -1,5 +1,6 @@
 from private import place_market_order, check_order_status
 from datetime import datetime, timedelta
+from messaging import send_message
 import time
 
 from pprint import pprint
@@ -182,7 +183,7 @@ class BotAgent:
                                         print("ABORT PROGRAM")
                                         print("UNEXPECTED ERROR")
                                         print(order_status_close_order)
-
+                                        send_message("Failed to Execute: 101")
                                         exit(1)
                         except Exception as e: 
                                 self.order_dict["pair_status"] = "ERROR"
@@ -191,6 +192,7 @@ class BotAgent:
                                 print("UNEXPECTED ERROR")
                                 print(order_status_close_order)
 
+                                send_message("Failed to Execute: 102")
                                 exit(1)
                 
                 #RETURN SUCCESS RESULT
